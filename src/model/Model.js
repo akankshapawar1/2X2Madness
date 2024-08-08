@@ -5,7 +5,6 @@ export class Board{
         if(config){
             this.squares = []
             this.size = parseInt(config.numColumns)
-        
             for (let csq of config.baseSquares){
                 //{ "color" : "green", "row": "0", "column" : "0" }
                 let sq = new Square(parseInt(csq.row), parseInt(csq.column), csq.color)
