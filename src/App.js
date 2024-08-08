@@ -13,7 +13,6 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
-
   const [model, setModel] = useState(new Model(2));
   const [redraw, forceRedraw] = useState(0);
   const appRef = useRef(null);
