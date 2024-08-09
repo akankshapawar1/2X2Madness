@@ -2,6 +2,9 @@ import './App.css';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import React from 'react';
+import useWindowSize from 'react-use/lib/useWindowSize';
+import Confetti from 'react-confetti';
 import redrawCanvas from './boundary/Boundary';
 import Model from './model/Model.js';
 import { processClick }  from './controller/SelectController.js';
@@ -19,6 +22,7 @@ function App() {
   const canvasRef = useRef(null);
   let grpArr
   let flag = false;
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
     redrawCanvas(model, canvasRef.current, appRef.current)
@@ -51,10 +55,18 @@ function App() {
     }
   };
 
-  function isBoardCleared(squares) {
-    flag = squares.every(square => square.color === 'white'); 
-    return flag;
-  };
+  function isBoardCleared(squares, width, height) {
+    const flag = squares.every(square => square.color === 'white'); 
+    if (flag) {
+      return (
+        <Confetti
+          width={width}
+          height={height}
+        />
+      );
+    }
+    return null;
+  };  
 
   return (
     <main className="Appmain" ref={appRef}>
@@ -80,7 +92,7 @@ function App() {
         <button className="button" data-testid="button_4" onClick={() => setModel(new Model(0))}>4X4</button>
         <button className="button" data-testid="button_5" onClick={() => setModel(new Model(1))}>5X5</button>
         <button className="button" data-testid="button_6" onClick={() => setModel(new Model(2))}>6X6</button>
-        {isBoardCleared(model.board.squares) && <div style={{ color: 'red', fontSize: '24px' }}>Congratulations! You've cleared the board!</div>}
+        {isBoardCleared(model.board.squares, width, height)}
       </div>
     </main>
   );
